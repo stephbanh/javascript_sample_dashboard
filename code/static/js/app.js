@@ -63,8 +63,39 @@ function init() {
     //fill out demographic information
     var demoInfo = json.metadata[0];
     Object.entries(demoInfo).forEach(
-        ([key, value]) => d3.select("#sample-metadata").append("p").text(`${key}: ${value}`));      
+        ([key, value]) => d3.select("#sample-metadata").append("p").text(`${key}: ${value}`));
+        
+        
+    //bonus: gauge 
+    var defaultWash = json.metadata[0].wfreq;
+    var gaugeInfo = [
+        {
+            value: defaultWash,
+            title: {text: "<b>Wash Frequency per week</b>"},
+            type: "indicator",
+            mode: "gauge+number",
+            gauge: {
+                axis: { range: [0, 9], tickwidth: 1, tickcolor: "darkblue"},
+                bar: {color: "#fb4a83"},
+                steps: [
+                    { range: [0, 1], color: "fff5f0"},
+                    { range: [1, 2], color: "#fee0d2"},
+                    { range: [2, 3], color: "#fcbba1"},
+                    { range: [3, 4], color: "#fc9272"},
+                    { range: [4, 5], color: "#fb6a4a"},
+                    { range: [5, 6], color: "#ef3b2c"},
+                    { range: [6, 7], color: "#cb181d"},
+                    { range: [7, 8], color: "#a50f15"},
+                    { range: [8, 9], color: "#67000d"},
+                ],
+            }
+        }
+    ];
+    Plotly.newPlot("gauge", gaugeInfo)
+    //#fff5f0 #fee0d2 #fcbba1 #fc9272 #fb6a4a #ef3b2c #cb181d #a50f15 #67000d
 
+
+//end of set up
 }
 //load up home paged
 init();
@@ -85,11 +116,19 @@ function newPlots() {
     var newDemo = json.metadata.filter(sample => sample.id == newValue)[0];
     var newSampleValues = newInfo.sample_values.slice(0,10).reverse();
     var newIDs = newInfo.otu_ids.slice(0,10).reverse();
+    //needed to change the ids into the desired y axis labels 
+    var mappedIDS = newIDs.map(newIDs => `OTU ${newIDs}`)
     var newLabels = newInfo.otu_labels.slice(0,10).reverse();
+    var newWash = newDemo.wfreq;
 
+    //bonus: update gauge 
+    Plotly.restyle("gauge", "value", [newWash]);
+
+    console.log(newWash)
+    //ids.map(ids => `OTU ${ids}`)
     //restyles
     Plotly.restyle("bar","x", [newSampleValues]);
-    Plotly.restyle("bar", "y", [newIDs]);
+    Plotly.restyle("bar", "y", [mappedIDS]);
     Plotly.restyle("bar", "text", [newLabels]);
 
     Plotly.restyle("bubble", "x", [newIDs]);
@@ -98,12 +137,15 @@ function newPlots() {
     Plotly.restyle("bubble", "marker.color", [newIDs]);
     Plotly.restyle("bubble", "marker.size", [newSampleValues]);
 
+    //make sure everything is executed before this; otherwise it will not be recognized
     //reset demo panel
     d3.select("#sample-metadata").html("");
     //refill
     Object.entries(newDemo).forEach(
         ([key, value]) => d3.select("#sample-metadata").append("p").text(`${key}: ${value}`));      
     };
+
+    
 
 //connected to the initial load. keep everything inside this so that it will recognize the load    
 });
