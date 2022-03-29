@@ -2,6 +2,7 @@
 HTML provided by: UCI Bootcamps.
 
 Takes the data from a study on belly button bacteria and visualizes them via Plotly. 
+Full website: https://stephbanh.github.io/javascript_sample_dashboard/
 
 # Current Status
 
