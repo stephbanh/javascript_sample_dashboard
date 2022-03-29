@@ -1,9 +1,9 @@
-# javascript_sample_dashboard
+# Javascript_sample_dashboard
 HTML provided by: UCI Bootcamps.
 
 Takes the data from a study on belly button bacteria and visualizes them via Plotly. 
 Full website: https://stephbanh.github.io/javascript_sample_dashboard/
 
-# Current Status
+# Current Preview
 
-<img width="869" alt="image" src="https://user-images.githubusercontent.com/91814465/160504448-18d53b0f-5764-4590-b7ad-2b18e0d74a1e.png">
+<img width="919" alt="image" src="https://user-images.githubusercontent.com/91814465/160552867-627a717f-0217-4417-9721-e2f557457144.png">
